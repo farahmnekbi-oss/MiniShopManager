@@ -1,41 +1,53 @@
 package com.example.minishopmanager
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.ListView
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        val listView = findViewById<ListView>(R.id.listViewproduct)
+
+        // Noms des produits (strings.xml)
+        val produits = resources.getStringArray(R.array.produits)
+
+        // Une image par produit, dans le même ordre que la liste
+        val images = listOf(
+            android.R.drawable.ic_menu_call,
+            android.R.drawable.ic_menu_camera,
+            android.R.drawable.ic_menu_recent_history,
+            android.R.drawable.ic_menu_share,
+            android.R.drawable.ic_menu_gallery,
+            android.R.drawable.ic_menu_edit
+        )
+
+        // Adapter personnalisé : texte + logo
+        val adapter = object : ArrayAdapter<String>(
+            this, R.layout.item_produit, R.id.tvNomProduit, produits
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                val view = super.getView(position, convertView, parent)
+                view.findViewById<ImageView>(R.id.imgProduit)
+                    .setImageResource(images[position])
+                return view
+            }
         }
 
-        // Récupération du bouton depuis la vue
-        val btnNext = findViewById<Button>(R.id.btnNext)
+        listView.adapter = adapter
 
-        // Action au clic sur le bouton
-        btnNext.setOnClickListener {
-            // Affichage du Toast
-            Toast.makeText(this, "Bonjour farah mnekbi !", Toast.LENGTH_SHORT).show()
-
-            // Intent explicite pour ouvrir ProfileActivity
-            val intent = Intent(this, ProfileActivity::class.java)
-            startActivity(intent)
+        // Clic sur un produit : Toast
+        listView.setOnItemClickListener { parent, _, position, _ ->
+            val item = parent.getItemAtPosition(position).toString()
+            Toast.makeText(this, "Produit sélectionné : $item", Toast.LENGTH_SHORT).show()
         }
-
-        // Log pour le cycle de vie
-        Log.d("LIFECYCLE", "onCreate appelé")
     }
 }

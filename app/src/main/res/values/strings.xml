@@ -1,3 +1,22 @@
 <resources>
+
     <string name="app_name">MiniShopManager</string>
+    <string name="titre_catalogue">Catalogue des Produits</string>
+
+    <string-array name="produits">
+        <item>Téléphone</item>
+        <item>Casque Bluetooth</item>
+        <item>Montre connectée</item>
+        <item>Chargeur USB</item>
+        <item>Accessoires</item>
+        <item>Cosmétiques</item>
+    </string-array>
+
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="action_settings">Settings</string>
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+
 </resources>
